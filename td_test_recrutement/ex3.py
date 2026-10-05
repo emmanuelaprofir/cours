@@ -48,6 +48,4 @@ def estBienParenthese(s):
     else:
         return True
 
-#ça se voit il est nustrale et il a un gros égo
-
 print(estBienParenthese(r"{[((aa))]}"))
