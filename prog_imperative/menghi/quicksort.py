@@ -1,4 +1,3 @@
-#pivot
 def partition(T, g, d):
     bas = g 
     haut = d 
@@ -10,7 +9,16 @@ def partition(T, g, d):
         if pivot == haut:
             bas = bas +1
         else :
-            haut = haut +1
+            haut = haut -1
     return pivot
 
-#def tri_rapide
+def tri_rapide(T, g=0, d=None):
+    if d is None:
+        d=len(T)-1
+    if g < d:
+        p = partition(T,g,d)
+        tri_rapide(T, g, p-1)
+        tri_rapide(T,p+1, d)
+    return T
+T=[5,3,8,1,9,2,7]
+print(tri_rapide(T))
