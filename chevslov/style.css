@@ -8,28 +8,6 @@
 * {
     box-sizing: border-box;
 }
-.window {
-    width: 428px;
-    height: 400px;
-
-    background: #ece9d8;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    border-top: 3px solid #ffffff;
-    border-left: 3px solid #ffffff;
-    border-right: 3px solid #404040;
-    border-bottom: 3px solid #404040;
-
-    box-shadow: 2px 2px 0 #000;
-
-    transform: translate(-50%, -50%);
-}
-
-
-
 
 html,
 body {
@@ -46,7 +24,6 @@ body {
     font-size: 11px;
     color: #000;
 
-    /* Faux fond Windows classique */
     background:
         linear-gradient(
             180deg,
@@ -54,10 +31,14 @@ body {
             #5b8fc4 55%,
             #3f75aa 100%
         );
+
+    --taskbar-height: 30px;
+    padding-bottom: var(--taskbar-height);
+    isolation: isolate;
 }
 
 /* =========================================================
-   FOND — motifs subtils façon bureau Windows
+   FOND — MOTIFS WINDOWS
    ========================================================= */
 
 body::before {
@@ -80,10 +61,11 @@ body::before {
         );
 
     pointer-events: none;
+    z-index: 0;
 }
 
 /* =========================================================
-   ICÔNES DU BUREAU — décor
+   ICÔNES DU BUREAU
    ========================================================= */
 
 body::after {
@@ -102,7 +84,6 @@ body::after {
 
     top: 25px;
     left: 25px;
-
     width: 90px;
 
     color: white;
@@ -117,23 +98,51 @@ body::after {
         0 1px #003366;
 
     opacity: .95;
+    pointer-events: none;
+    z-index: 1;
 }
 
 /* =========================================================
-   TITRE — transformé en barre de fenêtre
+   FENÊTRE PRINCIPALE
+   ========================================================= */
+
+.window {
+    width: 428px;
+    height: 400px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: #ece9d8;
+
+    border-top: 3px solid #ffffff;
+    border-left: 3px solid #ffffff;
+    border-right: 3px solid #404040;
+    border-bottom: 3px solid #404040;
+
+    box-shadow: 2px 2px 0 #000;
+
+    z-index: 2;
+}
+
+/* =========================================================
+   BARRE DE TITRE WINDOWS
    ========================================================= */
 
 h1 {
     position: absolute;
 
-    left: 50%;
-    top: 50%;
+    top: -3px;
+    left: -3px;
 
-    width: 430px;
+    width: 428px;
     height: 25px;
 
-    margin: -205px 0 0 -215px;
-    padding: 5px 6px 0 8px;
+    margin: 0;
+    padding: 5px 30px 0 8px;
 
     z-index: 10;
 
@@ -141,7 +150,6 @@ h1 {
     font-family: Tahoma, Arial, sans-serif;
     font-size: 11px;
     font-weight: bold;
-
     text-align: left;
 
     background:
@@ -163,12 +171,12 @@ h1 {
     text-shadow: 1px 1px #000;
 }
 
-/* Bouton fermer de la barre de titre */
+/* Bouton fermer */
+
 h1::after {
     content: "×";
 
     position: absolute;
-
     right: 3px;
     top: 3px;
 
@@ -179,7 +187,6 @@ h1::after {
     text-align: center;
 
     color: #000;
-
     font-family: Arial, sans-serif;
     font-size: 15px;
     font-weight: bold;
@@ -195,7 +202,7 @@ h1::after {
 }
 
 /* =========================================================
-   ESPACEMENT ENTRE LES ÉLÉMENTS
+   ESPACEMENT
    ========================================================= */
 
 br {
@@ -203,7 +210,26 @@ br {
 }
 
 /* =========================================================
-   INPUTS — vrai style Windows 98/2000
+   SOUS-TITRE
+   ========================================================= */
+
+h2 {
+    position: absolute;
+
+    top: 38px;
+    left: 0;
+
+    width: 100%;
+    margin: 0;
+
+    color: #000;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* =========================================================
+   CHAMPS DE SAISIE
    ========================================================= */
 
 input {
@@ -214,7 +240,6 @@ input {
     height: 23px;
 
     padding: 3px 5px;
-
     margin: 0;
 
     color: #000;
@@ -237,15 +262,17 @@ input {
         inset 1px 1px 2px rgba(0,0,0,.18);
 }
 
-/* Premier champ */
-input:nth-of-type(1) {
-    top: calc(50% - 115px);
+/* Pseudo */
+
+input[type="text"] {
+    top: 95px;
     transform: translateX(-50%);
 }
 
-/* Deuxième champ */
-input:nth-of-type(2) {
-    top: calc(50% - 68px);
+/* Email */
+
+input[type="email"] {
+    top: 132px;
     transform: translateX(-50%);
 }
 
@@ -254,7 +281,9 @@ input::placeholder {
 }
 
 /* Focus */
-input:focus {
+
+input[type="text"]:focus,
+input[type="email"]:focus {
     border-color: #316ac5;
 
     box-shadow:
@@ -263,44 +292,117 @@ input:focus {
 }
 
 /* =========================================================
-   FENÊTRE BLANCHE PRINCIPALE
+   SPÉCIALITÉS
    ========================================================= */
 
-body {
-    --window-left: calc(50% - 215px);
+span {
+    position: absolute;
+
+    top: 170px;
+    left: 0;
+
+    width: 100%;
+    margin: 0;
+
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+#tableau{
+    margin-top: 200px;
 }
 
-/* Panneau derrière les inputs */
-body > h1 ~ input:first-of-type::before {
-    content: "";
-}
+ul {
+    position: absolute;
 
-/* On utilise un pseudo-élément du body comme fenêtre */
-body {
-    isolation: isolate;
-}
+    top: 185px;
+    left: 80px;
 
-body > input:first-of-type {
-    z-index: 3;
+    margin: 0;
+    padding-left: 20px;
+
+    font-size: 11px;
+    line-height: 18px;
 }
 
 /* =========================================================
-   EFFET DE FENÊTRE
+   BOUTONS RADIO
    ========================================================= */
 
-body::marker {
-    content: "";
+input[type="radio"] {
+    position: absolute;
+
+    left: 105px;
+
+    width: 13px;
+    height: 13px;
+
+    margin: 0;
+    padding: 0;
+
+    box-shadow: none;
+    accent-color: #316ac5;
+}
+
+/* Femme */
+
+input[type="radio"][id="femme"] {
+    top: 265px;
+}
+
+/* Homme */
+
+input[type="radio"][id="homme"] {
+    top: 288px;
+}
+
+/* Libellés */
+
+label {
+    position: absolute;
+    left: 125px;
+
+    color: #000;
+    font-size: 11px;
+}
+
+label[for="femme"] {
+    top: 265px;
+}
+
+label[for="homme"] {
+    top: 288px;
 }
 
 /* =========================================================
-   BOUTON AUTHENTIFICATION
+   IMAGE DU CHAT
+   ========================================================= */
+
+img {
+    position: absolute;
+
+    top: 260px;
+    right: 35px;
+
+    width: 50px;
+    height: 50px;
+
+    margin: 0;
+
+    object-fit: cover;
+
+    border: 1px solid #808080;
+}
+
+/* =========================================================
+   BOUTON ENVOYER
    ========================================================= */
 
 button {
     position: absolute;
 
     left: 50%;
-    top: calc(50% + 25px);
+    top: 330px;
 
     transform: translateX(-50%);
 
@@ -328,11 +430,9 @@ button {
 
     border-radius: 0;
 
-    box-shadow:
-        1px 1px 0 #000;
+    box-shadow: 1px 1px 0 #000;
 
     cursor: default;
-
     z-index: 5;
 }
 
@@ -352,50 +452,99 @@ button:active {
 }
 
 /* =========================================================
-   BARRE DES TÂCHES WINDOWS
-   ========================================================= */
-
-body {
-    --taskbar-height: 30px;
-}
-
-/* Barre en bas */
-body {
-    padding-bottom: var(--taskbar-height);
-}
-
-/* =========================================================
-   FAUSSE BARRE DES TÂCHES
-   ========================================================= */
-
-body::before {
-    z-index: 0;
-}
-
-/* =========================================================
-   VERSION ULTRA-RÉTRO DES ÉLÉMENTS
-   ========================================================= */
-
-/* Petit texte système sous les champs */
-input:nth-of-type(1)::after {
-    content: "";
-}
-
-/* =========================================================
    RESPONSIVE
    ========================================================= */
 
 @media (max-width: 600px) {
-    h1 {
-        width: 360px;
-        margin-left: -180px;
+    .window {
+        width: min(428px, calc(100% - 20px));
     }
 
-    input {
-        width: 250px;
+    h1 {
+        width: calc(100% + 6px);
+    }
+
+    input[type="text"],
+    input[type="email"] {
+        width: min(270px, calc(100% - 50px));
+    }
+
+    ul {
+        left: 45px;
+    }
+
+    input[type="radio"] {
+        left: 75px;
+    }
+
+    label {
+        left: 95px;
+    }
+
+    img {
+        right: 20px;
     }
 
     body::after {
         display: none;
     }
+}
+input[type="radio"] {
+    position: absolute;
+    left: 90px;
+    width: 13px;
+    height: 13px;
+    margin: 0;
+    padding: 0;
+    z-index: 20;
+    box-shadow: none;
+}
+
+input[type="radio"][id="femme"] {
+    top: 265px;
+}
+
+input[type="radio"][id="homme"] {
+    top: 288px;
+}
+
+label[for="femme"],
+label[for="homme"] {
+    position: absolute;
+    left: 112px;
+    z-index: 20;
+    color: #000000;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    font-size: 11px;
+}
+
+label[for="femme"] {
+    top: 265px;
+}
+
+label[for="homme"] {
+    top: 288px;
+}
+
+table{
+    background-color: #316ac5;
+    color: white;
+    font-size: large;
+    border-width: 5px;
+    border-color: black;
+    margin-top: 70px;
+    margin-left: 80px;
+}
+tr:nth-child(odd) {
+  background-color: white;
+  color: black;
+}
+
+tr:nth-child(even) {
+  background-color: grey;
+}   
+#index {
+    padding-top: 190px;
 }
