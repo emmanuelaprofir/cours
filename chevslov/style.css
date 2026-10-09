@@ -271,7 +271,7 @@ input[type="text"] {
 
 /* Email */
 
-input[type="email"] {
+input[type="password"] {
     top: 132px;
     transform: translateX(-50%);
 }
@@ -332,7 +332,7 @@ ul {
 input[type="radio"] {
     position: absolute;
 
-    left: 105px;
+    left: 80px;
 
     width: 13px;
     height: 13px;
@@ -347,13 +347,13 @@ input[type="radio"] {
 /* Femme */
 
 input[type="radio"][id="femme"] {
-    top: 265px;
+    top: 205px;
 }
 
 /* Homme */
 
 input[type="radio"][id="homme"] {
-    top: 288px;
+    top: 228px;
 }
 
 /* Libellés */
@@ -501,11 +501,11 @@ input[type="radio"] {
 }
 
 input[type="radio"][id="femme"] {
-    top: 265px;
+    top: 205px;
 }
 
 input[type="radio"][id="homme"] {
-    top: 288px;
+    top: 228px;
 }
 
 label[for="femme"],
@@ -521,11 +521,11 @@ label[for="homme"] {
 }
 
 label[for="femme"] {
-    top: 265px;
+    top: 205px;
 }
 
 label[for="homme"] {
-    top: 288px;
+    top: 228px;
 }
 
 table{
@@ -547,4 +547,8 @@ tr:nth-child(even) {
 }   
 #index {
     padding-top: 190px;
+}
+
+#info {
+    margin-top: 137px;
 }
