@@ -1,24 +1,45 @@
-#(5-6)x7 --> x(-56)7
+import re
 
-def polonaise(calcul):
-    operateurs =["+","-","*","/"]
-    chiffres = ["0","1","2","3","4","5","6","7","8","9"]
-    calcul = str(calcul)
-    res = []
-    for i in range(len(calcul)):
-        if calcul[i] == "(":
-            res.append(calcul[i])
-            print(calcul[i+1:])
-            polonaise(calcul[i+1:])
-        if calcul[i] == "]":
-            res.append(calcul[i])
-        if calcul[i] in operateurs:
-            res.insert(0,calcul[i])
-    for i in range(len(calcul)):
-        if calcul[i] in chiffres:
-            res.append(calcul[i])
-    return ''.join(res)
+def tokeniser(expr):
+    """'2 * (3 + 4)' -> ['2', '*', '(', '3', '+', '4', ')']"""
+    return re.findall(r"\d+(?:\.\d+)?|[()+\-*/]", expr)
 
 
+def chercher(tokens, operateurs, i, niveau=0):
+    """Indice de l'opérateur le plus à droite hors parenthèses, ou -1 (récursif)."""
+    if i < 0:
+        return -1
+    t = tokens[i]
+    if t == ")":
+        return chercher(tokens, operateurs, i - 1, niveau + 1)
+    if t == "(":
+        return chercher(tokens, operateurs, i - 1, niveau - 1)
+    if niveau == 0 and t in operateurs:
+        return i
+    return chercher(tokens, operateurs, i - 1, niveau)
 
-print(polonaise("(5-6)*7"))
+
+def prefixe(tokens):
+    """Convertit une liste de tokens infixes en chaîne préfixée (récursif)."""
+    # D'abord + et - (les moins prioritaires), sinon * et /
+    i = chercher(tokens, "+-", len(tokens) - 1)
+    if i == -1:
+        i = chercher(tokens, "*/", len(tokens) - 1)
+
+    if i != -1:
+        return f"{tokens[i]} {prefixe(tokens[:i])} {prefixe(tokens[i + 1:])}"
+
+    # Aucun opérateur hors parenthèses : soit (expression), soit un nombre
+    if tokens[0] == "(":
+        return prefixe(tokens[1:-1])
+    return tokens[0]
+
+
+def infixe_vers_prefixe(expr):
+    return prefixe(tokeniser(expr))
+
+
+print(infixe_vers_prefixe("2 * ( 3 + 4 )"))      # * 2 + 3 4
+print(infixe_vers_prefixe("(1 + 2) * (3 - 4)"))  # * + 1 2 - 3 4
+print(infixe_vers_prefixe("1 - 2 - 3"))          # - - 1 2 3
+print(infixe_vers_prefixe("2 + 3 * 4"))          # + 2 * 3 4
