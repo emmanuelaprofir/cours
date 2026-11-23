@@ -1,11 +1,11 @@
 """ """
 
 labyrinthe = [
-    ["S", 0, 1, 0, 0],
+    ["S", 0, 0, 0, 0],
     [1,   0, 1, 0, 1],
     [0,   0, 0, 0, 1],
-    [0,   1, 1, 0, 0],
-    [0,   0, 0, "E", 0]
+    [0,   0, 1, 0, 0],
+    [1,   0, 0, "E", 0]
 ]
 chemin = []
 chemins = []
@@ -26,5 +26,17 @@ def findAllWays(posL, posC):
             findAllWays(posL-1, posC)
     chemin.pop()
 
+def findBestAndWorseWay(ways):
+    best = ways[0]
+    worse = ways[0]
+    for w in ways:
+        if len(w) < len(best):
+            best = w
+        if len(w) > len(worse):
+            worse = w
+    return best, worse
+
 findAllWays(0,0)
-print(chemins)
+best, worse = findBestAndWorseWay(chemins)
+print("Chemin le plus court :", len(best), best)
+print("Chemin le plus long :", len(worse), worse)
